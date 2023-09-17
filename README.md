@@ -1,2 +1,2 @@
-# finc-ub-1-finance
-A collection of problem set solutions for NYU FINC 1 Finance
+# Finance
+This is a collection of problem sets from the NYU FINC 1 Finance course.
