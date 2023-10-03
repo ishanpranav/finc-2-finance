@@ -1,0 +1,117 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\DeclareMathOperator{\pv}{pv}
+\DeclareMathOperator{\pva}{pva}
+\renewcommand{\theenumi}{\alph{enumi}}
+\makeatletter
+\renewcommand{\thesubsection}{\arabic{subsection}}
+\makeatother
+\title{FINC-UB 1 Homework 3}
+\author{Ishan Pranav}
+\date{September 20, 2023}
+\begin{document}
+\maketitle
+\section*{Stock returns}
+\section*{Performance measures}
+\subsection{A 5-year zero-coupon Treasury bond}
+\begin{enumerate}
+\item Let the future value $F=\$1000$, the annualized yield $r=5\%$, and the number of years $n=5$. The compounding frequency is annual. Find the price $P$.
+\begin{align*}
+P
+&=\pv(F)&\textit{fundamental theorem}\\
+&=\frac{F}{(1+r)^n}&\textit{definition of present value}\\
+&=\frac{\$1000}{(100\%+5\%)^5}&\textit{substitution property of equality}\\
+&=\$783.53.&\textit{arithmetic}
+\end{align*}
+\item Let $F=\$1000,r=5\%,P=\$325.57$. Solve for $n$.
+\begin{align*}
+P&=\pv(F)&\textit{fundamental theorem}\\
+P&=\frac{F}{(1+r)^n}&\textit{definition of present value}\\
+P(1+r)^n&=F&\textit{multiplication property of equality}\\
+\ln\left(P(1+r)^n\right)&=\ln{F}&\textit{$P(1+r)^n>0$ and $F>0$}\\
+\ln{P}+n\ln(1+r)&=\ln{F}&\textit{properties of logarithm}\\
+n&=\frac{\ln{F}-\ln{P}}{\ln(1+r)}&\textit{properties of equality}\\
+n&=\frac{\ln(\$1000)-\ln(\$325.57)}{\ln(100\%+5\%)}&\textit{substitution property of equality}\\
+n&\approx 23.&\textit{arithmetic}
+\end{align*}
+\end{enumerate}
+\subsection{Which of the following investments do you prefer?}
+Let $F=\$1000,P=\$550,n=10$. Solve for $r$.
+\begin{align*}
+P(1+r)^n&=F&\textit{prior demonstration}\\
+(1+r)^n&=\frac{F}{P}&\textit{$P\neq 0$}\\
+r&=\left(\frac{F}{P}\right)^{\frac{1}{n}}-1&\textit{properties of equality}\\
+r&=\left(\frac{\$1000}{\$550}\right)^{\frac{1}{10}}-1&\textit{substitution property of equality}\\
+r&\approx 6.1607\%\dots&\textit{arithmetic}
+\end{align*}
+The implied rate of return on the zero-coupon bond is 6.1607\%. The maturity and investment amounts are identical. Assume the difference in credit risk is negligible or nonexistent (perhaps because of FDIC insurance on the Chase investment and government backing for the zero-coupon bond). The compound annualized expected return on the Chase investment is 5.5\%, compared to the compound annualized expected return on the zero-coupon bond, 6.1607\%.
+
+Assuming a rational (return-maximizing) investor, the zero-coupon bond is the obvious choice.
+\subsection{Which security would you choose?}
+Consider the annuity. Let the annual payment $p=\$10000$, the interest rate $r=5\%$, and the number of years $n_1=6$. The compounding frequency is annual. Find the price $P_1$.
+\begin{align*}
+P_1&=\pva(p,r,n_1)&\textit{fundamental theorem}\\
+&=p\times\frac{1-\left(\frac{1}{(1+r_1)^{n_1}}\right)}{r_1}&\textit{definition of present value of annuity}\\
+&=\$10000\times\frac{1-\left(\frac{1}{(100\%+5\%)^6}\right)}{5\%}&\textit{substitution property of equality}\\
+&\approx\$50756.92.&\textit{arithmetic}
+\end{align*}
+Consider the deferred perpetuity. Let $n_2\to\infty$. Ten years in the future, the value of the perpetuity is $F=\frac{p}{r}=\frac{\$10000}{5\%}=\$200000$ by definition. However, that value must be discounted to the present ($n_3=10$ years prior) to obtain today's price $P_2$.
+\begin{align*}
+P_2&=\frac{F}{(1+r)^{n_3}}&\textit{prior demonstration}\\
+&=\frac{\$200000}{(100\%+5\%)^{10}}&\textit{substitution property of equality}\\
+&\approx\$122782.65.&\textit{arithmetic}
+\end{align*}
+I would choose the perpetuity because its worth is almost twice that of the annuity, even considering the delayed payments.
+
+If the annual interest rate were 10\%, the answer would change. This is because the cash flows would be further discounted. The present value of both securities would decrease. With a 10\% interest rate, the annuity is worth about \$43552.61, and the perpetuity is only worth about \$38554.33. The perpetuity suffers, first because it is only worth half now that the interest rate is doubled, and again because the 10-year initial delay incurs opportunity costs that grow exponentially at twice the original rate.
+\subsection{A hedge fund manager}
+Let the daily interest rate $r=1\%$ and the number of days $n=250$.
+\begin{enumerate}
+\item Let $F$ be the future value and $\pv(F)=\$100$. The compounding frequency is daily. Solve for $F$.
+\begin{align*}
+\pv(F)&=\frac{F}{(1+r)^n}&\textit{definition of present value}\\
+F&=\pv(F)\times(1+r)^n&(1+r)^n>0\\
+F&=\$100\times(100\%+1\%)^{250}&\textit{substitution property of equality}\\
+F&=\$1203.22.&\textit{arithmetic}
+\end{align*}
+Obtain the implicit interest rate $r_\mathrm{A}$ where the number of years $n_\mathrm{A}=1$. The compounding frequency is annual.
+\begin{align*}
+r_{\mathrm{A}}
+&=\left(\frac{F}{\pv(F)}\right)^{\frac{1}{n_\mathrm{A}}}-1&\textit{prior demonstration}\\
+&\approx\left(\frac{\$1203.22\dots}{\$100}\right)^{\frac{1}{1}}-1&\textit{substitution property of equality}\\
+&\approx 1103.2156\dots\%.&\textit{arithmetic}
+\end{align*}
+Your annual return would be over 11 times, or about 1103\%.
+\item Since interest is not reinvested, there is no compounding. No interest is earned on the interest earned in prior periods. This is equivalent to the case of simple interest. Your annual return would therefore be the same as the daily return (1\%), multiplied by the number of days (250): $1\%\times 250=250\%$, or two-and-a-half times.
+\item From an investor's perspective, it is never ``proper'' to use the annual percentage rate (APR)---the effective annual rate (EAR) accounts for compounding, which is crucial. However, U.S. regulators require that banks report interest in terms of APR. For a bank, it would be appropriate to quote a loan using APR.
+\end{enumerate}
+\subsection{Some alternative investments}
+Let $r$ be the effective annual rate, $i=8\%$ be the quoted annual interest rate, and $n$ be the number of periods. Then $r=\left(1+\frac{i}{n}\right)^n-1$ by definition.
+\begin{enumerate}
+\item Note $n=1$. Of course, $r=8\%$.
+\item Suppose $n=365$. Then $r=\left(1+\frac{8\%}{365}\right)^{365}\approx 8.3276\%$.
+\item Note $n\to\infty$.
+\begin{align*}
+r&=\lim_{n\to\infty}{\left[\left(1+\frac{8\%}{n}\right)^n-1\right]}&\textit{definition of continuous compounding}\\
+r&=\lim_{n\to\infty}{\left(1+\frac{8\%}{n}\right)^n}-1&\textit{properties of limit}\\
+e^x&=\lim_{n\to\infty}{\left(1+\frac{x}{n}\right)^n}&\textit{definition of exponential}\\
+e^{8\%}&=\lim_{n\to\infty}{\left(1+\frac{8\%}{n}\right)^n}&\textit{substitution property of equality}\\
+r&=e^{8\%}-1&\textit{transitive property of equality}\\
+r&\approx 8.3287\dots\%.&\textit{arithmetic}
+\end{align*}
+\end{enumerate}
+The more frequent the compounding, the better the annual return. Continuous compounding provides superior results, to a limit.
+\subsection{A 3-year zero-coupon bond}
+Let the future value $F=\$1000$, the present value $P=\$850$, and the number of years $n=3$. Find the annual rate of return $r$.
+\begin{enumerate}
+\item\[r=\left(\frac{F}{P}\right)^{\frac{1}{n}}-1=\left(\frac{\$1000}{\$850}\right)^{\frac{1}{3}}-1\approx 5.5667\dots\%.\]
+\item
+\begin{align*}
+\end{align*}
+\end{enumerate}
+
+\end{document}
