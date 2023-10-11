@@ -8,6 +8,7 @@
 \DeclareMathOperator{\pva}{pva}
 \renewcommand{\theenumi}{\alph{enumi}}
 \makeatletter
+\renewcommand{\thesection}{Part \Roman{section}}
 \renewcommand{\thesubsection}{\arabic{subsection}}
 \makeatother
 \title{FINC-UB 1 Homework 3}
@@ -15,8 +16,41 @@
 \date{September 20, 2023}
 \begin{document}
 \maketitle
-\section*{Stock returns}
-\section*{Performance measures}
+\section{Stock returns}
+\begin{align*}
+\mu_{5X+Y}
+&=5\mu_X+1\mu_Y&\textit{properties of mean}\\
+&=5\mu+1\mu&\textit{$\mu_X=\mu_Y=\mu$}\\
+&=6\mu.&\textit{arithmetic}
+\end{align*}
+\begin{align*}
+\mu_{3X+3Y}
+&=3\mu_X+3\mu_Y&\textit{properties of mean}\\
+&=3\mu+3\mu&\textit{$\mu_X=\mu_Y=\mu$}\\
+&=6\mu.&\textit{arithmetic}
+\end{align*}
+\begin{align*}
+\sigma_{5X+Y}^2
+&=(5^2)\sigma_X^2+(1^2)\sigma_Y^2+2(5)(1)\rho_{X,Y}\sigma_X\sigma_Y&\textit{properties of variance}\\
+&=(5^2)\sigma^2+(1^2)\sigma^2+2(5)(1)\rho_{X,Y}\sigma^2&\textit{$\sigma_X^2=\sigma_Y^2=\sigma^2$}\\
+&=26\sigma^2+10\rho_{X,Y}\sigma^2.&\textit{arithmetic}
+\end{align*}
+\begin{align*}
+\sigma_{3X+3Y}^2
+&=(3^2)\sigma_X^2+(3^2)\sigma_Y^2+2(3)(3)\rho_{X,Y}\sigma_X\sigma_Y&\textit{properties of variance}\\
+&=(3^2)\sigma^2+(3^2)\sigma^2+2(3)(3)\rho_{X,Y}\sigma^2&\textit{$\sigma_X^2=\sigma_Y^2=\sigma^2$}\\
+&=18\sigma^2+18\rho_{X,Y}\sigma^2.&\textit{arithmetic}
+\end{align*}
+If the second portfolio is preferred over the first portfolio and both portfolios have the same mean ($\mu_X=\mu_Y$), then the variance of the first ($\sigma_{5X+Y}^2$) must be greater than that of the second ($\sigma_{3X+3Y}^2$). That is, the second portfolio must provide the same expected return with less volatility.
+\begin{align*}
+\sigma_{5X+Y}^2&>\sigma_{3X+3Y}^2&\textit{axiom}\\
+26\sigma^2+10\rho_{X,Y}\sigma^2&>18\sigma^2+18\rho_{X,Y}\sigma^2&\textit{substitution property of equality}\\
+8\sigma^2&>8\rho_{X,Y}\sigma^2&\textit{properties of equality}\\
+1&>\rho_{X,Y}&\textit{X and Y are risky, $\sigma^2\neq 0$}\\
+\rho_{X,Y}&<1.&\textit{properties of less-than}
+\end{align*}
+It is safe to assume that X and Y are risky securities. If X is risk-free, then Y must also be risk-free since $\sigma_X^2=\sigma_Y^2$. We have determined that $\rho_{X,Y}<1$. However, this is already a given by the definition of correlation. Meanwhile, there are infinitely many solutions for $\sigma^2$. We conclude that the investor will \textit{always} prefer the second portfolio.
+\section{Performance measures}
 \subsection{A 5-year zero-coupon Treasury bond}
 \begin{enumerate}
 \item Let the future value $F=\$1000$, the annualized yield $r=5\%$, and the number of years $n=5$. The compounding frequency is annual. Find the price $P$.
@@ -38,6 +72,7 @@ n&=\frac{\ln{F}-\ln{P}}{\ln(1+r)}&\textit{properties of equality}\\
 n&=\frac{\ln(\$1000)-\ln(\$325.57)}{\ln(100\%+5\%)}&\textit{substitution property of equality}\\
 n&\approx 23.&\textit{arithmetic}
 \end{align*}
+The number of years is 23.
 \end{enumerate}
 \subsection{Which of the following investments do you prefer?}
 Let $F=\$1000,P=\$550,n=10$. Solve for $r$.
@@ -65,7 +100,7 @@ P_2&=\frac{F}{(1+r)^{n_3}}&\textit{prior demonstration}\\
 &=\frac{\$200000}{(100\%+5\%)^{10}}&\textit{substitution property of equality}\\
 &\approx\$122782.65.&\textit{arithmetic}
 \end{align*}
-I would choose the perpetuity because its worth is almost twice that of the annuity, even considering the delayed payments.
+I would choose the perpetuity because its worth is more than twice the annuity, even considering the delayed payments.
 
 If the annual interest rate were 10\%, the answer would change. This is because the cash flows would be further discounted. The present value of both securities would decrease. With a 10\% interest rate, the annuity is worth about \$43552.61, and the perpetuity is only worth about \$38554.33. The perpetuity suffers, first because it is only worth half now that the interest rate is doubled, and again because the 10-year initial delay incurs opportunity costs that grow exponentially at twice the original rate.
 \subsection{A hedge fund manager}
@@ -87,13 +122,13 @@ r_{\mathrm{A}}
 \end{align*}
 Your annual return would be over 11 times, or about 1103\%.
 \item Since interest is not reinvested, there is no compounding. No interest is earned on the interest earned in prior periods. This is equivalent to the case of simple interest. Your annual return would therefore be the same as the daily return (1\%), multiplied by the number of days (250): $1\%\times 250=250\%$, or two-and-a-half times.
-\item From an investor's perspective, it is never ``proper'' to use the annual percentage rate (APR)---the effective annual rate (EAR) accounts for compounding, which is crucial. However, U.S. regulators require that banks report interest in terms of APR. For a bank, it would be appropriate to quote a loan using APR.
+\item From an investor's perspective, it is never ``proper'' to use the annual percentage rate (APR)---the effective annual rate (EAR) accounts for compounding, which is crucial. However, U.S. regulators require that banks report interest in terms of APR. For a bank, it would be appropriate to quote a loan using APR. If there is no reinvestment or if there is no compounding (simple interest), then the EAR and APR are the same, so they can be used interchangeably.
 \end{enumerate}
 \subsection{Some alternative investments}
 Let $r$ be the effective annual rate, $i=8\%$ be the quoted annual interest rate, and $n$ be the number of periods. Then $r=\left(1+\frac{i}{n}\right)^n-1$ by definition.
 \begin{enumerate}
 \item Note $n=1$. Of course, $r=8\%$.
-\item Suppose $n=365$. Then $r=\left(1+\frac{8\%}{365}\right)^{365}\approx 8.3276\%$.
+\item Suppose $n=365$. Then $r=\left(1+\frac{8\%}{365}\right)^{365}\approx 8.3276\dots\%$.
 \item Note $n\to\infty$.
 \begin{align*}
 r&=\lim_{n\to\infty}{\left[\left(1+\frac{8\%}{n}\right)^n-1\right]}&\textit{definition of continuous compounding}\\
@@ -104,14 +139,63 @@ r&=e^{8\%}-1&\textit{transitive property of equality}\\
 r&\approx 8.3287\dots\%.&\textit{arithmetic}
 \end{align*}
 \end{enumerate}
-The more frequent the compounding, the better the annual return. Continuous compounding provides superior results, to a limit.
+The more frequent the compounding, the better the annual return. Continuous compounding provides superior results, to a limit. Bank A provides the lowest EAR, followed by B, and then C with the highest EAR.
 \subsection{A 3-year zero-coupon bond}
 Let the future value $F=\$1000$, the present value $P=\$850$, and the number of years $n=3$. Find the annual rate of return $r$.
 \begin{enumerate}
-\item\[r=\left(\frac{F}{P}\right)^{\frac{1}{n}}-1=\left(\frac{\$1000}{\$850}\right)^{\frac{1}{3}}-1\approx 5.5667\dots\%.\]
 \item
-\begin{align*}
-\end{align*}
-\end{enumerate}
+\[r=\left(\frac{F}{P}\right)^{\frac{1}{n}}-1=\left(\frac{\$1000}{\$850}\right)^{\frac{1}{3}}-1\approx 5.5667\dots\%.\]
+\item The coupon payment is 7\% of the face value of \$1000, or \$70. The face value is paid in the third year.
 
+\[\$975=\frac{\$70}{(1+r)^1}+\frac{\$70}{(1+r)^2}+\frac{\$1000+\$70}{(1+r)^3}.\]
+
+Solving for the internal rate of return gives $r\approx 7.9696\dots\%$.
+\end{enumerate}
+\subsection{The monthly S\&P 500 prices}
+\begin{enumerate}
+\item My best estimate for the next month's return is approximately 1.7976\dots\%. This is the sample mean monthly return for the period. Since we assume that the returns are independent and identically distributed random variables, our prediction should be equal to the expected value.
+\item Let $r_{\mathrm{A}}$ the annualized holding period return. Let $V_0=\$2704.10$ be the price of the index fund on January 1, 2019. Let $V_t=\$4522.68$ be the price of the index fund on August 1, 2021. The holding period was 32 months, or $2.\overline{6}$ years.
+\begin{align*}
+r_{\mathrm{A}}
+&=\left(\frac{V_t}{V_0}\right)^{\frac{1}{t}}-1&\textit{definition of annualized holding period return}\\
+&=\left(\frac{\$4522.68}{\$2704.10}\right)^{\frac{12}{32}}&\textit{substitution property of equality}\\
+&\approx 21.2732\dots\%.&\textit{arithmetic}
+\end{align*}
+\item The month with the lowest monthly return was March 2020 (a loss of roughly 12.5\%). It is very likely that a panic following the U.S. implementation of coronavirus lockdowns and general pandemic-inspired bearishness caused the crash.
+\end{enumerate}
+\section{Forecasting loss probabilities}
+\subsection{Find $P(X>0.5)$ and $P(X<0.5)$}
+We can use the normal cumulative distribution function $\Phi(z)$.
+\[P(X<x)=\Phi\left(\frac{x-\mu}{\sigma}\right)=\int_{-\infty}^{x}{\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}}.\]
+
+\[P(X>0.5)=[1-\Phi(0.4)]\approx [1-0.6554\dots]\approx 0.3446\dots\]
+
+\[P(X<0.5)=\Phi(0.4)\approx 0.6554\dots\]
+\subsection{The probability of losing money}
+We know that $X$ is normally distributed with a mean of $\mu=0.3$ and standard deviation of $\sigma=0.5$.
+
+The expected return over 10 years is $(1+0.3)^{10}-1\approx 12.7858\dots$ Assuming that individual $X$ values are independent of one another, the standard deviation of the 10-year return is $\sigma\sqrt{10}=0.5\cdot\sqrt{10}\approx 1.5811\dots$ The probability of losing money is the probability that the 10-year return is less than 0, or approximately $\Phi\left(\frac{0-12.7858\dots}{1.5811\dots}\right)\approx\Phi(-8.0865\dots)\approx 0.0000\dots$ The probability of loss over 10 years is statistically insignificant.
+
+The probability of losing money is the probability that the 20-year return is less than 0, or $\Phi\left(\frac{0-\left((1+\mu)^{20}-1\right)}{\sigma\sqrt{20}}\right)\approx\Phi\left(\frac{0-189.0496\dots}{2.236\dots}\right)\approx\Phi(-84.5456\dots)\approx 0.0000\dots$ The probability of loss over 20 years is statistically insignificant.
+\section{EAR and APR}
+\subsection{Calculating EAR}
+Let $r_{\mathrm{APR}}=18\%$ be the annual percentage rate (APR). Find the effective annual rate $r_{\mathrm{A}}$. Let $r_{\mathrm{M}}$ be the compounded monthly growth rate.
+
+\begin{align*}
+r_{\mathrm{APR}}&=12r_{\mathrm{M}}&\textit{definition of annual percentage rate}\\
+18\%&=12r_{\mathrm{M}}&\textit{substitution property of equality}\\
+r_{\mathrm{M}}&=1.5\%.&\textit{multiplication property of equality}
+\end{align*}
+
+Then $r_{\mathrm{A}}=(1+r_{\mathrm{M}})^{12}-1\approx 19.5618\dots\%$.
+\subsection{Finding APR from EAR}
+Let $r_{\mathrm{APR}}$ be the annualized percentage rate and $r_{\mathrm{A}}=9\%$ be the effective annual rate. The compounding frequency is semiannual ($n=2$ periods per year).
+
+Then $r_{\mathrm{APR}}=n\left((r_{\mathrm{A}}+1)^{\frac{1}{n}}-1\right)\approx 8.8061\dots\%$
+\subsection{Simple interest APR to EAR}
+Since there is no compounding, APR and EAR are interchangeable. Therefore the EAR is 6\%. 
+\subsection{Daily compounding}
+The compound daily interest rate is $r_{\mathrm{D}}=3.5\%/365\approx 0.0096\dots\%$. Therefore the effective annual interest rate $r_{\mathrm{A}}=(1+r_{\mathrm{D}})^{365}-1\approx 3.5618\dots\%$.
+\subsection{Comparing loans}
+Loan $A$ has an effective annual rate of $(100\%+\frac{5.5\%}{2})^{2}-100\%\approx 5.5756\dots\%$. Loan $B$ has an effective annual rate of $(100\%+\frac{5.4\%}{12})^{12}-100\%\approx 5.5357\dots\%.$ Loan $B$ has a lower effective annual rate.
 \end{document}
