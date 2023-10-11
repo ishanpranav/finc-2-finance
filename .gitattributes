@@ -4,3 +4,5 @@
 * text=auto
 *.dll binary
 *.pdf binary
+
+src/Finance.App/scripts/chart.js linguist-vendored
