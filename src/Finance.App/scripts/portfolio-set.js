@@ -5,18 +5,28 @@
 const page = window.chrome.webview.hostObjects.page;
 const chart = document.getElementById('chart');
 
+function percentageCallback(value) {
+    return (100 * value).toFixed(4) + "%";
+}
+
 const config = {
     type: 'scatter',
-    data: {
-        datasets: [{
-            label: "Investment Opportunity Set"
-        }]
-    },
     options: {
+        scales: {
+            x: {
+                ticks: {
+                    callback: percentageCallback
+                }
+            },
+            y: {
+                ticks: {
+                    callback: percentageCallback
+                }
+            }
+        },
         elements: {
             point: {
-                radius: 1,
-                backgroundColor: 'rgb(255, 99, 132)'
+                radius: 1
             },
         },
         plugins: {
@@ -29,7 +39,7 @@ const config = {
 
 async function main() {
     config.options.plugins.title.text = await page.title;
-    config.data.datasets[0].data = JSON.parse(await page.getChartDataJson);
+    config.data = JSON.parse(await page.getChartDataJson);
 }
 
 main().then(() => {

@@ -6,14 +6,13 @@ using System.Collections.Generic;
 
 namespace Finance.App.ChartJS;
 
-internal sealed class ChartJSChartData
+internal sealed class ChartJSChartData<T>
 {
-    public ChartJSChartData(IReadOnlyList<string> labels, IReadOnlyList<ChartJSChartDataset> datasets)
+    public ChartJSChartData(IReadOnlyList<ChartJSChartDataset<T>> datasets)
     {
-        Labels = labels;
         Datasets = datasets;
     }
 
-    public IReadOnlyList<string> Labels { get; }
-    public IReadOnlyList<ChartJSChartDataset> Datasets { get; }
+    public IList<string> Labels { get; } = new List<string>();
+    public IReadOnlyList<ChartJSChartDataset<T>> Datasets { get; }
 }

@@ -23,8 +23,6 @@ public abstract class DataProvider
 
     public string GetChartDataJson()
     {
-        string v = JsonSerializer.Serialize(GetChartData(), s_jsonSerializerOptions);
-
-        return v;
+        return JsonSerializer.Serialize(GetChartData(), s_jsonSerializerOptions);
     }
 }

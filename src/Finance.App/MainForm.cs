@@ -51,12 +51,12 @@ internal sealed partial class MainForm : Form
             return;
         }
 
-        new ChartForm("pages/time-series.html", new TimeSeriesDataProvider(table, "Weekly Adjusted Close", (table, row, security) => decimal.ToDouble(table.GetAdjustedClose(row, security))))
+        new ChartForm("pages/time-series.html", new TimeSeriesDataProvider(table, "Weekly Adjusted Close", (table, k, i) => decimal.ToDouble(table.AdjustedClose(k, i))))
         {
             MdiParent = this
         }.Show();
 
-        new ChartForm("pages/time-series.html", new TimeSeriesDataProvider(table, "Weekly Change", (table, row, security) => table[row, security]))
+        new ChartForm("pages/time-series.html", new TimeSeriesDataProvider(table, "Weekly Change", (table, k, security) => table.Change(k, security)))
         {
             MdiParent = this
         }.Show();

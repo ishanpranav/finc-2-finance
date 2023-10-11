@@ -22,10 +22,10 @@ internal sealed partial class ChartJSControl : UserControl
     {
         const string objectName = "page";
 
+        await _webView.EnsureCoreWebView2Async();
+
         try
         {
-            await _webView.EnsureCoreWebView2Async();
-
             _webView.CoreWebView2.RemoveHostObjectFromScript(objectName);
         }
         catch (COMException) { }

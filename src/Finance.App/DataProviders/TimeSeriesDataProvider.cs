@@ -3,6 +3,7 @@
 // Licensed under the MIT License.
 
 using Finance.App.ChartJS;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Finance.App.DataProviders;
@@ -12,25 +13,26 @@ namespace Finance.App.DataProviders;
 public class TimeSeriesDataProvider : DataProvider
 {
     private readonly SecurityTable _table;
-    private readonly Lookup _getPoint;
+    private readonly Locator _locator;
 
-    public TimeSeriesDataProvider(SecurityTable table, string title, Lookup getPoint)
+    public TimeSeriesDataProvider(SecurityTable table, string title, Locator locator)
     {
         _table = table;
         Title = title;
-        _getPoint = getPoint;
+        _locator = locator;
     }
 
     public override string Title { get; }
 
     protected override object GetChartData()
     {
-        string[] labels = new string[_table.Rows];
-        ChartJSChartDataset[] datasets = new ChartJSChartDataset[_table.Securities];
+        List<string> labels = new List<string>(_table.Rows);
+        ChartJSChartDataset<double>[] datasets = new ChartJSChartDataset<double>[_table.Securities];
+        ChartJSChartData<double> result = new ChartJSChartData<double>(datasets);
 
         for (int row = 0; row < _table.Rows; row++)
         {
-            labels[row] = _table.Timestamps[row].ToShortDateString();
+            labels.Add(_table.Timestamps[row].ToShortDateString());
         }
 
         for (int column = 0; column < _table.Securities; column++)
@@ -39,16 +41,16 @@ public class TimeSeriesDataProvider : DataProvider
 
             for (int row = 0; row < _table.Rows; row++)
             {
-                data[row] = _getPoint(_table, row, column);
+                data[row] = _locator(_table, row, column);
             }
 
-            datasets[column] = new ChartJSChartDataset(data)
+            datasets[column] = new ChartJSChartDataset<double>(data)
             {
                 Label = _table.Symbols[column] ?? string.Empty,
                 BorderWidth = 1
             };
         }
 
-        return new ChartJSChartData(labels, datasets);
+        return result;
     }
 }

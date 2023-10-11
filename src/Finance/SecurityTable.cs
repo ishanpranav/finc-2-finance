@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Finance;
@@ -19,20 +18,55 @@ public class SecurityTable
     private readonly DateTime[] _timestamps;
     private readonly decimal[,] _adjustedCloses;
     private readonly double[,] _changes;
+    private readonly double[] _means;
+    private readonly double[,] _covariances;
 
     private SecurityTable(string?[] symbols, DateTime[] timestamps, decimal[,] adjustedCloses, double[,] changes)
     {
+        int count = timestamps.Length - 1;
+        int n = symbols.Length;
+
         _symbols = symbols;
         _timestamps = timestamps;
         _adjustedCloses = adjustedCloses;
         _changes = changes;
-    }
+        _means = new double[n];
+        _covariances = new double[n, n];
 
-    public double this[int row, int security]
-    {
-        get
+        for (int k = 1; k <= count; k++)
         {
-            return _changes[row, security];
+            for (int security = 0; security < n; security++)
+            {
+                double change = Change(k, security);
+
+                _means[security] += change;
+            }
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            _means[i] /= count;
+        }
+
+        for (int k = 1; k <= count; k++)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                double di = Change(k, i) - _means[i];
+
+                for (int j = 0; j < n; j++)
+                {
+                    _covariances[i, j] += di * (Change(k, j) - _means[j]);
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                _covariances[i, j] /= count;
+            }
         }
     }
 
@@ -68,7 +102,22 @@ public class SecurityTable
         }
     }
 
-    public decimal GetAdjustedClose(int row, int security)
+    public double Change(int k, int i)
+    {
+        return _changes[k, i];
+    }
+
+    public double Mean(int i)
+    {
+        return _means[i];
+    }
+
+    public double Covariance(int i, int j)
+    {
+        return _covariances[i, j];
+    }
+
+    public decimal AdjustedClose(int row, int security)
     {
         return _adjustedCloses[row, security];
     }
@@ -169,7 +218,11 @@ public class SecurityTable
             }
         }
 
-        foreach (DateTime timestamp in timeSeries.Keys.ToList())
+        DateTime[] timestamps = new DateTime[timeSeries.Count];
+
+        timeSeries.Keys.CopyTo(timestamps, index: 0);
+
+        foreach (DateTime timestamp in timestamps)
         {
             if (Array.TrueForAll(timeSeries[timestamp], x => x != 0))
             {
