@@ -12,6 +12,7 @@ function percentageCallback(value) {
 const config = {
     type: 'scatter',
     options: {
+        animation: false,
         scales: {
             x: {
                 ticks: {

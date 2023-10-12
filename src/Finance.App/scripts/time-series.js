@@ -8,6 +8,7 @@ const chart = document.getElementById('chart');
 const config = {
     type: 'line',
     options: {
+        animation: false,
         elements: {
             point: {
                 radius: 0

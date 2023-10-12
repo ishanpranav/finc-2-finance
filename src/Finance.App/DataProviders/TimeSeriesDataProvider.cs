@@ -37,9 +37,9 @@ public class TimeSeriesDataProvider : DataProvider
         {
             double[] data = new double[_table.Count];
 
-            for (int row = 0; row < _table.Count; row++)
+            for (int k = 0; k < _table.Count; k++)
             {
-                data[row] = _locator(_table, row, i);
+                data[k] = _locator(_table, k, i);
             }
 
             datasets[i] = new ChartJSChartDataset<double>(data)

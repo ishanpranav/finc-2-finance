@@ -21,7 +21,7 @@ public class SecurityTable
     private readonly double[] _means;
     private readonly double[,] _covariances;
 
-    private SecurityTable(string?[] symbols, DateTime[] timestamps, decimal[,] adjustedCloses, double[,] changes)
+    private SecurityTable(string?[] symbols, DateTime[] timestamps, decimal[,] adjustedCloses)
     {
         int count = timestamps.Length - 1;
         int n = symbols.Length;
@@ -29,9 +29,25 @@ public class SecurityTable
         _symbols = symbols;
         _timestamps = timestamps;
         _adjustedCloses = adjustedCloses;
-        _changes = changes;
+        _changes = new double[timestamps.Length, n];
         _means = new double[n];
         _covariances = new double[n, n];
+
+        for (int i = 0; i < n; i++)
+        {
+            _changes[0, i] = double.NaN;
+        }
+
+        for (int k = 1; k <= count; k++)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                double x1 = decimal.ToDouble(adjustedCloses[k - 1, i]);
+                double x2 = decimal.ToDouble(adjustedCloses[k, i]);
+
+                _changes[k, i] = (x2 - x1) / x1;
+            }
+        }
 
         for (int k = 1; k <= count; k++)
         {
@@ -154,12 +170,6 @@ public class SecurityTable
         }
 
         decimal[,] adjustedCloses = new decimal[rows, n];
-        double[,] changes = new double[rows, n];
-
-        for (int i = 0; i < n; i++)
-        {
-            changes[0, i] = double.NaN;
-        }
 
         timestamps[0] = csvReader.GetField<DateTime>(index: 0);
 
@@ -168,30 +178,21 @@ public class SecurityTable
             adjustedCloses[0, i] = csvReader.GetField<decimal>(i + 1);
         }
 
-        int row = 1;
-        double totalChange;
+        int k = 1;
 
         while (await csvReader.ReadAsync())
         {
-            totalChange = 0;
-            timestamps[row] = csvReader.GetField<DateTime>(index: 0);
+            timestamps[k] = csvReader.GetField<DateTime>(index: 0);
 
             for (int i = 0; i < n; i++)
             {
-                decimal adjustedClose = csvReader.GetField<decimal>(i + 1);
-                double x1 = decimal.ToDouble(adjustedCloses[row - 1, i]);
-                double x2 = decimal.ToDouble(adjustedClose);
-                double change = (x2 - x1) / x1;
-
-                adjustedCloses[row, i] = adjustedClose;
-                changes[row, i] = change;
-                totalChange += change;
+                adjustedCloses[k, i] = csvReader.GetField<decimal>(i + 1);
             }
 
-            row++;
+            k++;
         }
 
-        return new SecurityTable(symbols, timestamps, adjustedCloses, changes);
+        return new SecurityTable(symbols, timestamps, adjustedCloses);
     }
 
     private static async Task SaveAsync(string path, AlphaVantageClient client, params string[] symbols)
