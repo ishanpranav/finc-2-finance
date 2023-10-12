@@ -26,12 +26,9 @@ public readonly struct Portfolio
         }
     }
 
-    public double this[int index]
+    public double Weight(int index)
     {
-        get
-        {
-            return _weights[index];
-        }
+        return _weights[index];
     }
 
     public double Mean(SecurityTable table)
@@ -59,7 +56,7 @@ public readonly struct Portfolio
         {
             for (int j = 0; j < Count; j++)
             {
-                result += _weights[i] * _weights[j] * table.Covariance(i, j);
+                result += Weight(i) * Weight(j) * table.Covariance(i, j);
             }
         }
 

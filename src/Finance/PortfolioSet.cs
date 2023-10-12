@@ -72,7 +72,7 @@ public class PortfolioSet
 
             for (int i = 0; i < n; i++)
             {
-                result._matrix[k, i] = portfolio[i];
+                result._matrix[k, i] = portfolio.Weight(i);
             }
 
             result._matrix[k, n + MeanOffset] = mean;
