@@ -16,7 +16,7 @@ public class PortfolioSet
     private PortfolioSet(SecurityTable table, int portfolios)
     {
         Table = table;
-        _matrix = new double[portfolios, table.Securities + 3];
+        _matrix = new double[portfolios, table.N + 3];
     }
 
     public int Portfolios
@@ -36,12 +36,12 @@ public class PortfolioSet
 
     public double GetMean(int portfolio)
     {
-        return _matrix[portfolio, Table.Securities + MeanOffset];
+        return _matrix[portfolio, Table.N + MeanOffset];
     }
 
     public double GetVariance(int portfolio)
     {
-        return _matrix[portfolio, Table.Securities + VarianceOffset];
+        return _matrix[portfolio, Table.N + VarianceOffset];
     }
 
     public double GetStandardDeviation(int portfolio)
@@ -51,12 +51,12 @@ public class PortfolioSet
 
     public double GetSharpeRatio(int portfolio)
     {
-        return _matrix[portfolio, Table.Securities + SharpeRatioOffset];
+        return _matrix[portfolio, Table.N + SharpeRatioOffset];
     }
 
     public static PortfolioSet Generate(SecurityTable table, Random random, int portfolios, double riskFreeRate)
     {
-        int n = table.Securities;
+        int n = table.N;
         PortfolioSet result = new PortfolioSet(table, portfolios);
 
         for (int k = 0; k < portfolios; k++)

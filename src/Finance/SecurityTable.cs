@@ -35,11 +35,11 @@ public class SecurityTable
 
         for (int k = 1; k <= count; k++)
         {
-            for (int security = 0; security < n; security++)
+            for (int i = 0; i < n; i++)
             {
-                double change = Change(k, security);
+                double change = Change(k, i);
 
-                _means[security] += change;
+                _means[i] += change;
             }
         }
 
@@ -52,11 +52,11 @@ public class SecurityTable
         {
             for (int i = 0; i < n; i++)
             {
-                double di = Change(k, i) - _means[i];
+                double di = Change(k, i) - Mean(i);
 
                 for (int j = 0; j < n; j++)
                 {
-                    _covariances[i, j] += di * (Change(k, j) - _means[j]);
+                    _covariances[i, j] += di * (Change(k, j) - Mean(j));
                 }
             }
         }
@@ -70,7 +70,7 @@ public class SecurityTable
         }
     }
 
-    public int Rows
+    public int Count
     {
         get
         {
@@ -78,7 +78,7 @@ public class SecurityTable
         }
     }
 
-    public int Securities
+    public int N
     {
         get
         {
@@ -133,7 +133,7 @@ public class SecurityTable
         }
 
         int rows = csvReader.GetField<int>(index: 0);
-        int securities = csvReader.GetField<int>(index: 1);
+        int n = csvReader.GetField<int>(index: 1);
 
         if (!await csvReader.ReadAsync())
         {
@@ -141,11 +141,11 @@ public class SecurityTable
         }
 
         DateTime[] timestamps = new DateTime[rows];
-        string?[] symbols = new string?[securities];
+        string?[] symbols = new string?[n];
 
-        for (int security = 0; security < securities; security++)
+        for (int i = 0; i < n; i++)
         {
-            symbols[security] = csvReader.GetField<string>(security + 1);
+            symbols[i] = csvReader.GetField<string>(i + 1);
         }
 
         if (!await csvReader.ReadAsync())
@@ -153,19 +153,19 @@ public class SecurityTable
             return null;
         }
 
-        decimal[,] adjustedCloses = new decimal[rows, securities];
-        double[,] changes = new double[rows, securities];
+        decimal[,] adjustedCloses = new decimal[rows, n];
+        double[,] changes = new double[rows, n];
 
-        for (int security = 0; security < securities; security++)
+        for (int i = 0; i < n; i++)
         {
-            changes[0, security] = double.NaN;
+            changes[0, i] = double.NaN;
         }
 
         timestamps[0] = csvReader.GetField<DateTime>(index: 0);
 
-        for (int security = 0; security < securities; security++)
+        for (int i = 0; i < n; i++)
         {
-            adjustedCloses[0, security] = csvReader.GetField<decimal>(security + 1);
+            adjustedCloses[0, i] = csvReader.GetField<decimal>(i + 1);
         }
 
         int row = 1;
@@ -176,15 +176,15 @@ public class SecurityTable
             totalChange = 0;
             timestamps[row] = csvReader.GetField<DateTime>(index: 0);
 
-            for (int security = 0; security < securities; security++)
+            for (int i = 0; i < n; i++)
             {
-                decimal adjustedClose = csvReader.GetField<decimal>(security + 1);
-                double x1 = decimal.ToDouble(adjustedCloses[row - 1, security]);
+                decimal adjustedClose = csvReader.GetField<decimal>(i + 1);
+                double x1 = decimal.ToDouble(adjustedCloses[row - 1, i]);
                 double x2 = decimal.ToDouble(adjustedClose);
                 double change = (x2 - x1) / x1;
 
-                adjustedCloses[row, security] = adjustedClose;
-                changes[row, security] = change;
+                adjustedCloses[row, i] = adjustedClose;
+                changes[row, i] = change;
                 totalChange += change;
             }
 
@@ -197,24 +197,25 @@ public class SecurityTable
     private static async Task SaveAsync(string path, AlphaVantageClient client, params string[] symbols)
     {
         SortedDictionary<DateTime, decimal[]> timeSeries = new SortedDictionary<DateTime, decimal[]>();
+        int n = symbols.Length;
 
-        for (int security = 0; security < symbols.Length; security++)
+        for (int i = 0; i < n; i++)
         {
             IReadOnlyList<AlphaVantageAdjustedTimeSeriesResponse> responses = await client.GetTimeSeriesAsync(AlphaVantageAdjustedTimeSeries.Weekly, new AlphaVantageTimeSeriesRequest()
             {
-                Symbol = symbols[security],
+                Symbol = symbols[i],
                 OutputSize = AlphaVantageOutputSize.Compact
             });
 
             foreach (AlphaVantageAdjustedTimeSeriesResponse response in responses)
             {
-                if (!timeSeries.TryGetValue(response.Timestamp, out decimal[]? row))
+                if (!timeSeries.TryGetValue(response.Timestamp, out decimal[]? vector))
                 {
-                    row = new decimal[symbols.Length];
-                    timeSeries[response.Timestamp] = row;
+                    vector = new decimal[n];
+                    timeSeries[response.Timestamp] = vector;
                 }
 
-                row[security] = response.AdjustedClose;
+                vector[i] = response.AdjustedClose;
             }
         }
 

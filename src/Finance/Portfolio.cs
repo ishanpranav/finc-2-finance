@@ -108,7 +108,7 @@ public readonly struct Portfolio
 
     private static Vector<double> Guess(SecurityTable table)
     {
-        int n = table.Securities;
+        int n = table.N;
 
         return CreateVector.Dense(n, 1d / n);
     }
@@ -125,7 +125,7 @@ public readonly struct Portfolio
             return new Portfolio(x).Variance(table);
         }
 
-        int n = table.Securities;
+        int n = table.N;
 
         return new Portfolio(FindMinimum.OfFunction(objective, Guess(table)));
     }

@@ -65,7 +65,5 @@ internal sealed partial class MainForm : Form
         {
             MdiParent = this
         }.Show();
-
-        PortfolioSet.Generate(table, Random.Shared, 100, 0.0);
     }
 }

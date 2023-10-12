@@ -3,7 +3,6 @@
 // Licensed under the MIT License.
 
 using Finance.App.ChartJS;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Finance.App.DataProviders;
@@ -26,28 +25,27 @@ public class TimeSeriesDataProvider : DataProvider
 
     protected override object GetChartData()
     {
-        List<string> labels = new List<string>(_table.Rows);
-        ChartJSChartDataset<double>[] datasets = new ChartJSChartDataset<double>[_table.Securities];
+        ChartJSChartDataset<double>[] datasets = new ChartJSChartDataset<double>[_table.N];
         ChartJSChartData<double> result = new ChartJSChartData<double>(datasets);
 
-        for (int row = 0; row < _table.Rows; row++)
+        for (int k = 0; k < _table.Count; k++)
         {
-            labels.Add(_table.Timestamps[row].ToShortDateString());
+            result.Labels.Add(_table.Timestamps[k].ToShortDateString());
         }
 
-        for (int column = 0; column < _table.Securities; column++)
+        for (int i = 0; i < _table.N; i++)
         {
-            double[] data = new double[_table.Rows];
+            double[] data = new double[_table.Count];
 
-            for (int row = 0; row < _table.Rows; row++)
+            for (int row = 0; row < _table.Count; row++)
             {
-                data[row] = _locator(_table, row, column);
+                data[row] = _locator(_table, row, i);
             }
 
-            datasets[column] = new ChartJSChartDataset<double>(data)
+            datasets[i] = new ChartJSChartDataset<double>(data)
             {
-                Label = _table.Symbols[column] ?? string.Empty,
-                BorderWidth = 1
+                Label = _table.Symbols[i] ?? string.Empty,
+                BorderWidth = 1,
             };
         }
 
