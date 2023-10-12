@@ -392,4 +392,5 @@ FodyWeavers.xsd
 *.db-shm
 *.db-wal
 
-src/Finance.App/Properties/launchSettings.json
+src/Finance.AlphaVantage/Properties/launchSettings.json
+src/**/*.csv

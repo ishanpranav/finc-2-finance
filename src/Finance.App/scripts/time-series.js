@@ -14,7 +14,7 @@ const config = {
                 radius: 0
             },
             line: {
-                tension: 1
+                tension: 0.3
             }
         },
         plugins: {

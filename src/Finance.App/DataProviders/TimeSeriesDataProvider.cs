@@ -46,6 +46,7 @@ public class TimeSeriesDataProvider : DataProvider
             {
                 Label = _table.Symbols[i] ?? string.Empty,
                 BorderWidth = 1,
+                PointRadius = 0
             };
         }
 
