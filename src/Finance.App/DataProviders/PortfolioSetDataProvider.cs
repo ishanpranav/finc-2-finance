@@ -23,7 +23,7 @@ public class PortfolioSetDataProvider : DataProvider
 
     private ChartJSPoint CreatePoint(int portfolio)
     {
-        return new ChartJSPoint(_set.GetStandardDeviation(portfolio), _set.GetMean(portfolio));
+        return new ChartJSPoint(_set.StandardDeviation(portfolio), _set.Mean(portfolio));
     }
 
     protected override object GetChartData()

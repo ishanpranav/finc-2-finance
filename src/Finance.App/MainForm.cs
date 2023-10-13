@@ -4,7 +4,6 @@
 
 using Finance.App.DataProviders;
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Finance.App;
@@ -20,7 +19,7 @@ internal sealed partial class MainForm : Form
     {
         FileSystemCache cache = new FileSystemCache("../../../../tables");
         SecurityTable table = await cache.ToTableAsync();
-        PortfolioSet set = PortfolioSet.Generate(table, new Random(1202004), 32787, 0.001);
+        PortfolioSet set = PortfolioSet.Generate(table, new Random(1202004), 32787);
 
         new ChartForm("pages/time-series.html", new TimeSeriesDataProvider(table, "Weekly Adjusted Close", (table, k, i) => decimal.ToDouble(table.AdjustedClose(k, i))))
         {

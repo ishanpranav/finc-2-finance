@@ -124,6 +124,11 @@ public class SecurityTable
         return _means[i];
     }
 
+    public double Variance(int i)
+    {
+        return _covariances[i, i];
+    }
+
     public double Covariance(int i, int j)
     {
         return _covariances[i, j];

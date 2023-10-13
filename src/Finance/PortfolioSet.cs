@@ -10,13 +10,12 @@ public class PortfolioSet
 {
     private const int MeanOffset = 0;
     private const int VarianceOffset = 1;
-    private const int SharpeRatioOffset = 2;
     private readonly double[,] _matrix;
 
     private PortfolioSet(SecurityTable table, int portfolios)
     {
         Table = table;
-        _matrix = new double[portfolios, table.N + 3];
+        _matrix = new double[portfolios, table.N + 2];
     }
 
     public int Portfolios
@@ -31,29 +30,24 @@ public class PortfolioSet
     public int MinimumVariancePortfolio { get; private set; }
     public int MinimumVarianceEfficientPortfolio { get; private set; }
 
-    public double GetWeight(int portfolio, int i)
+    public double Weight(int portfolio, int i)
     {
         return _matrix[portfolio, i];
     }
 
-    public double GetMean(int portfolio)
+    public double Mean(int portfolio)
     {
         return _matrix[portfolio, Table.N + MeanOffset];
     }
 
-    public double GetVariance(int portfolio)
+    public double Variance(int portfolio)
     {
         return _matrix[portfolio, Table.N + VarianceOffset];
     }
 
-    public double GetStandardDeviation(int portfolio)
+    public double StandardDeviation(int portfolio)
     {
-        return Math.Sqrt(GetVariance(portfolio));
-    }
-
-    public double GetSharpeRatio(int portfolio)
-    {
-        return _matrix[portfolio, Table.N + SharpeRatioOffset];
+        return Math.Sqrt(Variance(portfolio));
     }
 
     private static double[] Randomize(Random random, int count)
@@ -79,12 +73,12 @@ public class PortfolioSet
         return weights;
     }
 
-    public static PortfolioSet Generate(SecurityTable table, Random random, int portfolios, double riskFreeRate)
+    public static PortfolioSet Generate(SecurityTable table, Random random, int portfolios)
     {
         int n = table.N;
         PortfolioSet result = new PortfolioSet(table, portfolios);
         double minimumVariance = double.PositiveInfinity;
-        double maximumSharpeRatio = double.NegativeInfinity;
+        double maximumSharpeProxy = double.NegativeInfinity;
 
         for (int portfolio = 0; portfolio < portfolios; portfolio++)
         {
@@ -110,21 +104,20 @@ public class PortfolioSet
                 }
             }
 
-            double sharpeRatio = (mean - riskFreeRate) / Math.Sqrt(variance);
+            double sharpeProxy = mean / variance;
 
             result._matrix[portfolio, n + MeanOffset] = mean;
             result._matrix[portfolio, n + VarianceOffset] = variance;
-            result._matrix[portfolio, n + SharpeRatioOffset] = sharpeRatio;
-
+            
             if (variance < minimumVariance)
             {
                 minimumVariance = variance;
                 result.MinimumVariancePortfolio = portfolio;
             }
-
-            if (sharpeRatio > maximumSharpeRatio)
+            
+            if (sharpeProxy > maximumSharpeProxy)
             {
-                maximumSharpeRatio = sharpeRatio;
+                maximumSharpeProxy = sharpeProxy;
                 result.MinimumVarianceEfficientPortfolio = portfolio;
             }
         }
