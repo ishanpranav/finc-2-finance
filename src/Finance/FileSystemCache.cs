@@ -81,12 +81,10 @@ public class FileSystemCache
 
         foreach (DateTime timestamp in timestamps)
         {
-            if (Array.TrueForAll(timeSeries[timestamp], x => x != 0))
+            if (!Array.TrueForAll(timeSeries[timestamp], x => x != 0))
             {
-                break;
+                timeSeries.Remove(timestamp);
             }
-
-            timeSeries.Remove(timestamp);
         }
 
         int count = timeSeries.Count;

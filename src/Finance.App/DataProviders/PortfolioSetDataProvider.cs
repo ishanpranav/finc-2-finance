@@ -3,7 +3,6 @@
 // Licensed under the MIT License.
 
 using Finance.App.ChartJS;
-using System;
 using System.Runtime.InteropServices;
 
 namespace Finance.App.DataProviders;
@@ -13,35 +12,33 @@ namespace Finance.App.DataProviders;
 public class PortfolioSetDataProvider : DataProvider
 {
     private readonly PortfolioSet _set;
-    private readonly Portfolio _minimumVariancePortfolio;
-    private readonly Portfolio _maximumSharpeRatioPortfolio;
 
-    public PortfolioSetDataProvider(SecurityTable table, string title)
+    public PortfolioSetDataProvider(PortfolioSet set, string title)
     {
-        _set = PortfolioSet.Generate(table, Random.Shared, 20000, 0.0178);
-        _minimumVariancePortfolio = Portfolio.CreateMinimumVariancePortfolio(_set.Table);
-        _maximumSharpeRatioPortfolio = Portfolio.CreateMaximumSharpeRatioPortfolio(_set.Table);
-
         Title = title;
+        _set = set;
     }
 
     public override string Title { get; }
+
+    private ChartJSPoint CreatePoint(int portfolio)
+    {
+        return new ChartJSPoint(_set.GetStandardDeviation(portfolio), _set.GetMean(portfolio));
+    }
 
     protected override object GetChartData()
     {
         ChartJSPoint[] data = new ChartJSPoint[_set.Portfolios];
         ChartJSPoint[] minimumVariance = new ChartJSPoint[1];
-        ChartJSPoint[] maximumSharpeRatio = new ChartJSPoint[1];
+        ChartJSPoint[] minimumVarianceEfficient = new ChartJSPoint[1];
 
         for (int portfolio = 0; portfolio < data.Length; portfolio++)
         {
-            double mean = _set.GetMean(portfolio);
-
-            data[portfolio] = new ChartJSPoint(_set.GetStandardDeviation(portfolio), mean);
+            data[portfolio] = CreatePoint(portfolio);
         }
 
-        minimumVariance[0] = new ChartJSPoint(_minimumVariancePortfolio.StandardDeviation(_set.Table), _minimumVariancePortfolio.Mean(_set.Table));
-        maximumSharpeRatio[0] = new ChartJSPoint(_maximumSharpeRatioPortfolio.StandardDeviation(_set.Table), _maximumSharpeRatioPortfolio.Mean(_set.Table));
+        minimumVariance[0] = CreatePoint(_set.MinimumVariancePortfolio);
+        minimumVarianceEfficient[0] = CreatePoint(_set.MinimumVarianceEfficientPortfolio);
 
         return new ChartJSChartData<ChartJSPoint>(new ChartJSChartDataset<ChartJSPoint>[]
         {
@@ -54,7 +51,7 @@ public class PortfolioSetDataProvider : DataProvider
                 Label = "Minimum Variance Portfolio (MVP)",
                 PointRadius = 10
             },
-            new ChartJSChartDataset<ChartJSPoint>(maximumSharpeRatio)
+            new ChartJSChartDataset<ChartJSPoint>(minimumVarianceEfficient)
             {
                 Label = "Minimum Variance Efficient (MVE) Portfolio",
                 PointRadius = 10

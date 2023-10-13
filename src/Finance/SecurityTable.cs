@@ -28,6 +28,18 @@ public class SecurityTable
         _means = new double[n];
         _covariances = new double[n, n];
 
+        for (int k = 1; k <= count; k++)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                double x1 = decimal.ToDouble(adjustedCloses[k - 1, i]);
+                double x2 = decimal.ToDouble(adjustedCloses[k, i]);
+                double change = (x2 - x1) / x1;
+
+                _changes[k, i] = change;
+            }
+        }
+
         for (int i = 0; i < n; i++)
         {
             _changes[0, i] = double.NaN;
@@ -37,20 +49,7 @@ public class SecurityTable
         {
             for (int i = 0; i < n; i++)
             {
-                double x1 = decimal.ToDouble(adjustedCloses[k - 1, i]);
-                double x2 = decimal.ToDouble(adjustedCloses[k, i]);
-
-                _changes[k, i] = (x2 - x1) / x1;
-            }
-        }
-
-        for (int k = 1; k <= count; k++)
-        {
-            for (int i = 0; i < n; i++)
-            {
-                double change = Change(k, i);
-
-                _means[i] += change;
+                _means[i] += Change(k, i);
             }
         }
 
@@ -67,7 +66,9 @@ public class SecurityTable
 
                 for (int j = 0; j < n; j++)
                 {
-                    _covariances[i, j] += di * (Change(k, j) - Mean(j));
+                    double dj = Change(k, j) - Mean(j);
+
+                    _covariances[i, j] += di * dj;
                 }
             }
         }

@@ -20,6 +20,25 @@ const config = {
         plugins: {
             title: {
                 display: true
+            },
+            legend: {
+                position: 'left',
+                align: 'start'
+            },
+            zoom: {
+                pan: {
+                    enabled: true,
+                    mode: 'xy'
+                },
+                zoom: {
+                    wheel: {
+                        enabled: true,
+                    },
+                    pinch: {
+                        enabled: true
+                    },
+                    mode: 'xy'
+                }
             }
         }
     }

@@ -28,10 +28,12 @@ public class PortfolioSet
     }
 
     public SecurityTable Table { get; }
+    public int MinimumVariancePortfolio { get; private set; }
+    public int MinimumVarianceEfficientPortfolio { get; private set; }
 
-    public double GetWeight(int portfolio, int security)
+    public double GetWeight(int portfolio, int i)
     {
-        return _matrix[portfolio, security];
+        return _matrix[portfolio, i];
     }
 
     public double GetMean(int portfolio)
@@ -54,30 +56,77 @@ public class PortfolioSet
         return _matrix[portfolio, Table.N + SharpeRatioOffset];
     }
 
+    private static double[] Randomize(Random random, int count)
+    {
+        double totalWeight = 0;
+        double[] weights = new double[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            double weight = random.Next();
+
+            weights[i] = weight;
+            totalWeight += weight;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            double weight = weights[i] / totalWeight;
+
+            weights[i] = weight;
+        }
+
+        return weights;
+    }
+
     public static PortfolioSet Generate(SecurityTable table, Random random, int portfolios, double riskFreeRate)
     {
         int n = table.N;
         PortfolioSet result = new PortfolioSet(table, portfolios);
+        double minimumVariance = double.PositiveInfinity;
+        double maximumSharpeRatio = double.NegativeInfinity;
 
-        for (int k = 0; k < portfolios; k++)
+        for (int portfolio = 0; portfolio < portfolios; portfolio++)
         {
-            Portfolio portfolio = Portfolio.Generate(random, n);
-
-            portfolio.MeanVarianceSharpeRatio(
-                table,
-                riskFreeRate,
-                out double mean,
-                out double variance,
-                out double sharpeRatio);
+            double[] weights = Randomize(random, n);
+            double mean = 0;
+            double variance = 0;
 
             for (int i = 0; i < n; i++)
             {
-                result._matrix[k, i] = portfolio.Weight(i);
+                result._matrix[portfolio, i] = weights[i];
             }
 
-            result._matrix[k, n + MeanOffset] = mean;
-            result._matrix[k, n + VarianceOffset] = variance;
-            result._matrix[k, n + SharpeRatioOffset] = sharpeRatio;
+            for (int i = 0; i < n; i++)
+            {
+                mean += weights[i] * table.Mean(i);
+            }
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    variance += weights[i] * weights[j] * table.Covariance(i, j);
+                }
+            }
+
+            double sharpeRatio = (mean - riskFreeRate) / Math.Sqrt(variance);
+
+            result._matrix[portfolio, n + MeanOffset] = mean;
+            result._matrix[portfolio, n + VarianceOffset] = variance;
+            result._matrix[portfolio, n + SharpeRatioOffset] = sharpeRatio;
+
+            if (variance < minimumVariance)
+            {
+                minimumVariance = variance;
+                result.MinimumVariancePortfolio = portfolio;
+            }
+
+            if (sharpeRatio > maximumSharpeRatio)
+            {
+                maximumSharpeRatio = sharpeRatio;
+                result.MinimumVarianceEfficientPortfolio = portfolio;
+            }
         }
 
         return result;
