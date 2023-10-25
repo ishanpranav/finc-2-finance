@@ -9,7 +9,6 @@
 \DeclareMathOperator{\pva}{pva}
 \renewcommand{\theenumi}{\alph{enumi}}
 \makeatletter
-\renewcommand{\thesection}{Question \arabic{section}}
 \renewcommand{\thesubsection}{\arabic{subsection}}
 \makeatother
 \title{FINC-UB 1 Homework 6}
@@ -17,5 +16,39 @@
 \date{October 6, 2023}
 \begin{document}
 \maketitle
-
+\section*{Fama--French three-factor model}
+Let $t$ be a given month, and let $\mu_{i_t}$ represent the expected return of the hedge fund in month $t$. Let $f$ represent the risk-free rate. Let $\lambda_{M_t}$ represent the return of the market portfolio in month $t$. Let $e_{i_t}$ represent the residual error with respect to the hedge fund's return in month $t$. 
+\subsection{The baseline capital asset pricing model}
+Let $\alpha_{\mathrm{CAPM}}\approx 0.5770\dots$ be the constant coefficient from the baseline capital asset pricing model. Let $\beta_M\approx 1.4625\dots$ be the regression coefficient for the return of the market portfolio. Then
+\begin{align*}
+\mu_{i_t}-f&=\alpha_{\mathrm{CAPM}}+\beta_M\lambda_{M_t}+e_{i_t}\\
+\mu_{i_t}-f&\approx 0.5770+1.4625\lambda_{M_t}+e_{i_t}.
+\end{align*}
+\begin{center}
+\begin{tabular}{lcr|lcr|lcr}
+$\alpha_{\mathrm{CAPM}}$&$\approx$&$0.5770\dots$&$t_{\alpha_{\mathrm{CAPM}}}$&$\approx$&$2.8973\dots$&$P_{(t\geq 2.8973)}$&$\approx$&$3.8457\dots\%$\\
+$\beta_M$&$\approx$&$1.4625\dots$&$t_{\beta_M}$&$\approx$&$40.4768\dots$&$P_{(t\geq 40.4768)}$&$\approx$&$0.0000\dots\%$
+\end{tabular}
+\end{center}
+\subsection{Would you buy or sell this hedge fund?}
+If my only options are to buy the hedge fund or to sell it, I would choose to buy the hedge fund. According to the regression results, the hedge fund has a positive ``alpha'' with respect to the market at the 5\% significance level $\left(P_{t<t_{\alpha_{\mathrm{CAPM}}}}<5\%\right)$. So, according to the capital asset pricing model, there is a good chance that the hedge fund has historically sustained ``abnormal'' excess returns above those predicted using the market excess returns. If the regression is to be trusted blindly, we expect that even in a month when the market provides a return of 0, the hedge fund will provide a return of $\alpha_{\mathrm{CAPM}}\approx 0.58\%$. Of course, the regression only explains $r^2\approx 62\%$ of the variation in the returns of the hedge fund. Still, given our model and data, the case for buying is stronger than the case for selling.
+\subsection{Fama--French three-factor model}
+Let $\alpha_{\mathrm{FF}}\approx 0.0001\dots$ be the constant coefficient from the Fama--French three-factor model. Let $\beta_M\approx 1.0120\dots$ be the regression coefficient for the return of the market portfolio, $\beta_{\mathrm{SMB}}\approx 1.3361\dots$ be the regression coefficient for the market capitalization (size) factor, and $\beta_{\mathrm{HML}}\approx 1.2340\dots$ be the regression coefficient for the book-to-market (value) factor. Let $\lambda_{{{\mathrm{SMB}}_i}}$ be the size factor for the hedge fund, and $\lambda_{{{\mathrm{HML}}_i}}$ be the value factor for the hedge fund. Then
+\begin{align*}
+\mu_{i_t}-f&=\alpha_{\mathrm{FF}}+\beta_M\lambda_{M_t}+\beta_{\mathrm{SMB}}\lambda_{{{\mathrm{SMB}}_i}}+\beta_{\mathrm{HML}}\lambda_{{{\mathrm{HML}}_i}}+e_{i_t}\\
+\mu_{i_t}-f&=0.0001+1.0120\lambda_{M_t}+1.3361\lambda_{{{\mathrm{SMB}}_i}}+1.2340\lambda_{{{\mathrm{HML}}_i}}+e_{i_t}.
+\end{align*}
+\begin{center}
+\begin{tabular}{lcr|lcr|lcr}
+$\alpha_{\mathrm{FF}}$&$\approx$&$0.0001\dots$&$t_{\alpha_{\mathrm{FF}}}$&$\approx$&$0.2975\dots$&$P_{(t\geq 0.2975)}$&$\approx$&$76.6115\dots\%$\\
+$\beta_M$&$\approx$&$1.0120\dots$&$t_{\beta_M}$&$\approx$&$27757.3684\dots$&$P_{(t\geq 27757.3684)}$&$\approx$&$0.0000\dots\%$\\
+$\beta_{\mathrm{SMB}}$&$\approx$&$1.3361\dots$&$t_{\beta_{\mathrm{SMB}}}$&$\approx$&$25680.6429\dots$&$P_{(t\geq 25680.6429)}$&$\approx$&$0.0000\dots\%$\\
+$\beta_{\mathrm{HML}}$&$\approx$&$1.2340\dots$&$t_{\beta_{\mathrm{HML}}}$&$\approx$&$20669.4881\dots$&$P_{(t\geq 20669.4881)}$&$\approx$&$0.0000\dots\%$
+\end{tabular}
+\end{center}
+According to the Fama--French three-factor model, the hedge fund is not performing much better than the market. The ``abnormal'' return return provided by the hedge fund is $\alpha_{\mathrm{FF}}\approx 0.00\%$. In fact, according to the Student $t$-statistic, the probability that $\alpha_{\mathrm{FF}}=0$ is $P\approx 76\%$. Thus the so-called ``alpha'' is not statistically significant and could be entirely fictious. The Fama--French model exposes the illusion of superior returns and reveals that the hedge fund is \textit{not} beating the market.
+\subsection{Why $\alpha_{\mathrm{CAPM}}\neq\alpha_{\mathrm{FF}}$}
+The simple and multivariate regressions produce different intercepts because the additional variables in the multivariate regression are able to ``explain'' some of the constant coefficient. In the multivariate regression, a portion of the original constant coefficient in the simple regression ($\alpha_{\mathrm{CAPM}}$) is accounted for by the introduction of the size and value factors ($\lambda_{{\mathrm{SMB}}_i}$ and $\lambda_{{\mathrm{HML}}_i}$) multiplied by their respective coefficients ($\beta_{\mathrm{SMB}}$ and $\beta_{\mathrm{HML}}$). Thus, $\alpha_{\mathrm{FF}}<\alpha_{\mathrm{CAPM}}$. Intuitively, the ``abnormal returns'' are in fact not abnormal. They can largely be explained by the introduction of the new factors.
+\subsection{Why CAPM's $\beta_{\mathrm{M}}$ is not equal to Fama--French's $\beta_{\mathrm{M}}$}
+A variable is not guaranteed to have the same coefficient in a simple regression as in a multivariate regression. An ordinary least-squares regression is computed by minimizing the sum of the squares of the residuals. The simple regression is tasked with explaining as great a proportion of the residual errors as possible ($\max{r^2}$) using only $\lambda_M$, while the multivariate regression may use $\lambda_M$, $\lambda_{\mathrm{SMB}}$, and $\lambda_{\mathrm{HML}}$ to accomplish the same. We know by comparing the values of $r^2$ that the simple regression is weaker than the multivariate regression. So the simple regression is ``stretching'' $\beta_M$ to explain the data, when in fact there are multiple variables required to predict the excess return of a security. Thus $\beta_M$ from the Fama--French model is probably more accurate than $\beta_M$ from the capital asset pricing model. The assumption that $\beta_M$ in one regression should equal $\beta_M$ in another has no mathematical basis.
 \end{document}
