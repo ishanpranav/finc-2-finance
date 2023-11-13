@@ -4,7 +4,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{graphicx}
-\DeclareMathOperator{\pv}{pv}
+\usepackage{physics}
 \DeclareMathOperator{\pva}{pva}
 \renewcommand{\theenumi}{\alph{enumi}}
 \makeatletter
@@ -20,14 +20,14 @@
 \subsection{The stock PolarBear.com}
 \begin{enumerate}
 \item Assume no arbitrage. Suppose the price of PolarBear.com on the North Pole Exchange is \$18. By the principle of no arbitrage, we have the law of one price. So the price of PolarBear.com on the South Pole Exchange is \$18.
-\item Suppose the price of PolarBear.com on the North Pole Exchange is \$18 and the price on the South Pole Exchange is \$17. Assume no taxes, trading costs, or collateral requirements. Our initial equity for the investment is 0. On the North Pole Exchange, we enter a short position of PolarBear.com (invest $-\$18$) and receive \$18 in cash. Note our equity remains $(-\$18)+\$18=0$. Then, we invest \$17 in PolarBear.com on the South Pole Exchange. Now our equity is still $(-\$18)+\$17+\$1=0$. However, we have received a net cash flow of \$1 in the present. In the future, we repay our liability (1 share of PolarBear.com) with the share that trades on the South Pole Exchange, so the future cash flow is 0. Therefore, with no equity invested, and no risk, we obtain a positive cash flow in the present and no cash flow in the future. Hence, this is a successful arbitrage. It yields \$1 of profit.
+\item Suppose the price of PolarBear.com on the North Pole Exchange is \$18 and the price on the South Pole Exchange is \$17. Assume no taxes, trading costs, or collateral requirements. Our initial equity for the investment is 0. On the North Pole Exchange, we enter a short position of PolarBear.com and receive \$18 in cash. Note our equity remains $(-\$18)+\$18=0$. Then, we invest \$17 in PolarBear.com on the South Pole Exchange. Now our equity is still $(-\$18)+\$17+\$1=0$. However, we have received a net cash flow of \$1 in the present. In the future, we repay our liability (1 share of PolarBear.com) with the share that trades on the South Pole Exchange, so the future cash flow is 0. Therefore, with no equity invested, and no risk, we obtain a positive cash flow in the present and no cash flow in the future. Hence, this is a successful arbitrage. It yields \$1 of profit.
 \item Assume no arbitrage. Let the price of PolarBear.com on the North Pole Exchange be \$18 and suppose the North Pole Exchange charges a \$2 fee for buying and selling. Let $p$ represent the price on the South Pole Exchange. Then $\$16\leq p\leq\$20$. 
 
 Assume, for the sake of contradiction, that $p<\$16$. Then the price on the North Pole Exchange is greater than that on the South Pole Exchange. The present cash flows are the proceeds from taking a short position on the North Pole Exchange (\$18), less the \$2 trading fee, less the cost of investing on the South Pole Exchange ($p$), or $(\$18-\$2-p)=(\$16-p)$. Since $p<\$16$, the present cash flow is positive. Of course, the future cash flow is 0 because, in the future, we can use our share on the South Pole Exchange to pay off our liability. A successful arbitrage trade is possible, which contradicts the principle of no arbitrage. Thus our assumption is false: Therefore $p\geq\$16$.
 
 Assume, again for the sake of contradiction, that $p>\$20$. Then the price on the South Pole Exchange is greater than that on the North Pole Exchange. The present cash flows are $(p-\$18-\$2)=(p-\$20)$. Since $p>\$20$, the present cash flow is positive. Again, the future cash flow is 0. The existence of a successful arbitrage trade contradicts the principle of no arbitrage. Thus our assumption is false: Therefore $p\leq\$20$.
 
-Hence, the price on the South Pole Exchange is between \$16 and \$20.
+Hence, assuming no arbitrage, the price on the South Pole Exchange is between \$16 and \$20.
 \end{enumerate}
 \subsection{Rain or shine}
 Let \textsc{RAIN} and \textsc{SUN} be two securities such that RAIN pays \$100 if there is rain during the World Cup final and such that SUN pays \$100 if there is no rain during the World Cup final. Let $t_0$ represent the time 1 year before the World Cup final and $t_1$ represent the time of the World Cup final. Let the price of \textsc{RAIN} at time $t_0$ be \$23 and the price of \textsc{SUN} at time $t_0$ be \$70.
@@ -38,7 +38,7 @@ Suppose there is rain. Then we receive \$100 from \textsc{RAIN}.
 
 Suppose instead there is no rain. Then we receive \$100 from \textsc{SUN}.
 
-In all cases, we receive \$100. So, our payoff is $(\$100-\$93)=-\$7$. We expect a payoff of \$7, or a return of about 7.526\%, regardless of the weather.
+In all cases, we receive \$100. So, our payoff is $(\$100-\$93)=\$7$. We expect a payoff of \$7, or a return of about 7.526\%, regardless of the weather.
 \item Assume no arbitrage. Then the price of a 1-year zero coupon bond (whose issuer is unspecified) is less than or equal to 93\% of its face value. In other words, the yield of a 1-year zero-coupon bond is greater than or equal to 7.526\%.
 
 The combined portfolio of \textsc{RAIN} and \textsc{SUN} has an expected return of about 7.526\% with no volatility. Since there is no volatility, there is no systemic risk and no idiosyncratic risk. By the principle of no arbitrage, the return of the portfolio is equal to the risk-free rate. Thus, a risk-free security has an annualized yield of about 7.526\%. A 1-year zero coupon bond whose issuer is unspecified has a volatility greater than or equal to zero, so its yield is greater than or equal to 7.526\%.
@@ -60,10 +60,72 @@ Consider a \$100, 1-year, zero-coupon U.S. Treasury bill. We expect its price to
 \end{enumerate}
 \subsection{A \$1000, 5-year, 10\%-semiannual-coupon government bond}
 \begin{enumerate}
-\item Suppose the yield to maturity on similar 5-year semiannual-coupon government bonds is 8\%. Since $10\%>8\%$, this bond trades at a premium. The  price $-C_0$ is about \$1079.85. \[0=C_0+\$1000\left(\frac{1}{1+8\%}\right)^5+\$100\sum_{j=1}^5{\left(\frac{1}{1+8\%}\right)^j}.\]
-\[-C_0\approx\$1079.85.\]
-\item Suppose instead the yield to maturity on similar 5-year semiannual-coupon government bonds is 12\%. Since $10\%<12\%$, this bond trades at a discount. The price $-C_0$ is about \$927.90. \[0=C_0+\$1000\left(\frac{1}{1+12\%}\right)^5+\$100\sum_{j=1}^5{\left(\frac{1}{1+12\%}\right)^j}.\]
-\[-C_0\approx\$927.90.\]
-\item Let $-C_0=\$1030$ be the price of the bond. The yield to maturity $y$ is the same as the annualized return for the 5-year holding period.
+\item Suppose the yield to maturity on similar 5-year semiannual-coupon government bonds is 8\%. Since $10\%>8\%$, this bond trades at a premium. The  price $p$ is about \$1081.11. \[p=\$1000\left(\frac{1}{1+4\%}\right)^{10}+\$50\sum_{j=1}^{10}{\left(\frac{1}{1+4\%}\right)^j}.\]
+\[p\approx\$1081.11.\]
+\item Suppose instead the yield to maturity on similar 5-year semiannual-coupon government bonds is 12\%. Since $10\%<12\%$, this bond trades at a discount. The price $p$ is about \$926.40. \[p=\$1000\left(\frac{1}{1+6\%}\right)^{10}+\$50\sum_{j=1}^{10}{\left(\frac{1}{1+6\%}\right)^j}.\]
+\[p\approx\$926.40.\]
+\item Let $p_0=\$1030$ be the price of the bond. Since $p_0>\$1000$, this bond trades at a premium. The yield to maturity $y$ is the same as the internal rate of return for the 5-year holding period. Since the bond trades at a premium, $y<10\%$.
+
+\[C_0+\sum_{j=1}^{10}{\frac{C_j}{(1+r)^n}}=0.\]
+\[r\approx 4.6186\dots\%.\]
+\[y=2r\approx 9.2373\dots\%.\]
+
+The yield to maturity is about 9.24\%.
+\item Consider the bond in part (c). Suppose we hold the bond for 6 months, then sell it for $p_1=\$1020$. The annualized holding period return $r_{\rm HPR}$ is about 7.92\%.
+
+\[r_{\rm HPR}=\left(\frac{\$1020+\$50}{\$1030}\right)^{\frac{1}{2}}-1\approx 7.9178\dots\%.\]
 \end{enumerate}
+\subsection{The expectations hypothesis}
+The present yield to maturity $y_0(1)$ on a 1-year zero-coupon bond is 8\%. The present yield to maturity $y_0(2)$ on a 2-year zero-coupon bond is 10\%. Assume no transaction costs, no default risk, and risk neutrality. Assume investors maximize holding period returns.
+\begin{enumerate}
+\item Let $\mu_{y_1(1)}$ be the expectation of the yield of the 1-year zero-coupon bond one year in the future. Since investors are risk neutral, they are indifferent between investing in a 2-year zero coupon bond and consecutively investing in two 1-year zero coupon bonds.
+\[\left(1+10\%\right)^2=\left(1+8\%\right)\left(1+\mu_{y_1(1)}\right).\]
+\[\mu_{y_1(1)}\approx 12.0370\dots\%.\]
+So the market's expectation for the yield of the 1-year zero-coupon bond for the second year is about 12.04\%.
+\item Consider an investor with a 1-year investment horizon who expects the yield on a 1-year zero-coupon bond be 6\% 1 year in the future. 
+
+If the investor purchases 1-year zero-coupon bond and holds the bond to maturity, the annualized holding period return is 8\%.
+
+Let $F$ be the face value of the 2-year zero-coupon bond. If the investor purchases a 2-year zero-coupon bond, the price will be $\frac{F}{(1+10\%)^2}\approx(0.8264\dots)F$. Based on the investor's expectation, the price of the 2-year zero-coupon bond in 1 year will be $\frac{F}{1+6\%}\approx(0.9434\dots)F$. Thus the annualized holding period return is $\left(\frac{0.9434\dots}{0.8264\dots}\cdot\frac{F}{F}\right)-1\approx 14.1509\dots\%.$
+
+By investing in 2-year zero-coupon bonds and selling them early, the investor's overall return will be about 14.15\% for the year. This strategy is optimal.
+\item If all investors behave like the investor in part (b), then demand for the 1-year zero-coupon bond will fall until the return from investing in the 2-year zero-coupon bond is equal to the return from investing in a 1-year zero-coupon bond yielding 8\% then reinvesting into a 1-year zero-coupon bond yielding 6\%. 
+
+In other words, since the market's expectation for the 1-year zero-coupon bond yield in 1 year is $\mu_{y_1(1)}=6\%$, the present 1-year zero-coupon bond yield $y_0(1)$ must change to satisfy the principle of no arbitrage.
+
+\[(1+10\%)^2=\left(1+y_1(1)\right)(1+6\%)\]
+
+Now $y_1(1)\approx 14.1509\dots\%$. So the 1-year zero-coupon bond yield will be the same as the approximately 14.15\% expected by the investor in part (b).
+
+The term structure shifts to reflect market expectations.
+\end{enumerate}
+\subsection{The percentage change in price}
+Let $y_0(2.5)=25\%$ be the present yield to maturity of a zero-coupon bond with 2.5 years to maturity. Consider a 3-year zero-coupon bond with a face value of \$1000 and an annual coupon of 25\%. The yield to maturity $y$ of the coupon bond is 25\%.
+
+We can determine the gross yield elasticity of price $E_p$, which is the percent change in the price $p$ per percent change in gross yield $(1+y)$. By construction, this is the same as the negative of the duration $D$ in years.
+
+\[E_p=\frac{(1+y)}{p}\cdot\pdv{p}{(1+y)}=-D.\]
+
+Of course, $D$ is the weighted average time of arrival of the security's cash flows. Let $C_j$ be the cash flow after $j$ years.
+
+\[D=\frac{1}{p}\sum_{j=0}^n{j\frac{C_j}{(1+y)^j}}.\]
+
+For the zero-coupon bond, there is only one cash flow, so its duration $D_{2.5}$ is 2.5 years. Since the coupon is equal to the yield to maturity, the coupon bond trades at par, so its price is \$1000. Let $D_3$ represent its duration in years.
+
+\begin{align*}
+D_3
+&=\frac{1}{\$1000}\left[(0\cdot-\$1000)+\left(1\cdot\frac{\$250}{(1+25\%)^1}\right)+\left(2\cdot\frac{\$250}{(1+25\%)^2}\right)+\left(3\cdot\frac{\$1250}{(1+25\%)^3}\right)\right]\\
+&=\frac{1}{\$1000}\cdot\$2440\\
+&=2.44.
+\end{align*}
+
+The duration of the coupon bond (2.44 years) is less than that of the zero-coupon bond (2.5 years), meaning that the zero-coupon bond is more sensitive to changes in the price. In terms of elasticities, the gross yield elasticity of the price of the zero-coupon bond has a greater magnitude than that of the coupon bond. So for a given percentage change in the market interest rate, the zero-coupon bond experiences a greater percentage change in price.
+
+Intuitively, we might expect the price of the longer-maturity bond to be more sensitive to changes in the yield. Here this is not the case since the 25\% annual coupons come early and reduce the bond's duration below that of the zero-coupon bond.
+
+The initial price of the zero-coupon bond when the market interest rate is 25\% is about \$632.89. After a 1\% increase in the market interest rate, its price is \$620.41. The change in price is about 1.97 percentage points per percentage point change in gross yield.
+
+The initial price of the coupon bond is \$1000, but after a 1\% increase in the market interest rate, its price is \$980.77. The change in price is about 1.96 percentage points per percentage point change in gross yield.
+
+It is evident that shorter-maturity zero-coupon bond is more yield-sensitive than the longer-maturity coupon bond. The results from using duration (and convexity) to compute first-order (and second-order) approximations are similar to those given above.
 \end{document}
